@@ -37,4 +37,28 @@ export class TasksService {
         this.tasks = this.tasks.filter(task => task.id !== taskId);
         return !!!this.getTaskById(taskId);
     }
+
+    updateStatus(taskId: string, status: string) {
+        const task = this.tasks.find(item => item.id === taskId);
+        const taskStatus = TaskStatus[status];
+
+        if (!task) {
+            return `Task ${taskId} not found`;
+        }
+
+        if (!taskStatus) {
+            const validStatuses = Object.keys(TaskStatus).join(', ');
+            return `Status ${status} not valid. Use ${validStatuses}`;
+        }
+
+        this.tasks = this.tasks.map(item => item.id === taskId ? ({
+            ...item,
+            status: taskStatus,
+        }) : item);
+
+        return {
+            ...task,
+            status: taskStatus,
+        };
+    }
 }
