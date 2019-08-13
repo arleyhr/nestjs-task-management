@@ -26,4 +26,10 @@ export class TasksService {
 
         return task;
     }
+
+    getTaskById(taskId: string): Task {
+        const exists = this.tasks.find(task => task.id === taskId);
+
+        return exists || null;
+    }
 }
