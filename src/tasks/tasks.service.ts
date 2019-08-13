@@ -32,4 +32,9 @@ export class TasksService {
 
         return exists || null;
     }
+
+    deleteTaskById(taskId: string): boolean {
+        this.tasks = this.tasks.filter(task => task.id !== taskId);
+        return !!!this.getTaskById(taskId);
+    }
 }
