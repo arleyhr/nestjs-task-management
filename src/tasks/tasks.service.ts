@@ -70,11 +70,6 @@ export class TasksService {
             throw new NotFoundException(`Task '${taskId}' not found`);
         }
 
-        if (!taskStatus) {
-            const validStatuses = Object.keys(TaskStatus).join(', ');
-            throw new NotFoundException(`Status ${status} not valid. Use ${validStatuses}`);
-        }
-
         this.tasks = this.tasks.map(item => item.id === taskId ? ({
             ...item,
             status: taskStatus,
