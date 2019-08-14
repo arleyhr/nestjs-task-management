@@ -3,12 +3,26 @@ import * as uid from 'uid';
 
 import { Task, TaskStatus } from './task.model';
 import CreateTaskDto from './dto/create-task.dto';
+import GetTasksDto from './dto/get-tasks.dto';
 
 @Injectable()
 export class TasksService {
     private tasks: Task[] = [];
 
-    getTasks(): Task[] {
+    getTasks(query?: GetTasksDto): Task[] {
+        if (query && (query.search || query.search)) {
+            const { status, search } = query;
+            let filteredTasks: Task[] = [...this.tasks];
+
+            if (status) {
+                filteredTasks = filteredTasks.filter(task => task.status === status);
+            }
+            if (search) {
+                filteredTasks = filteredTasks.filter(task => task.title.includes(search));
+            }
+
+            return filteredTasks;
+        }
         return this.tasks;
     }
 
