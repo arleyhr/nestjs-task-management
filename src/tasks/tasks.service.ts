@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import * as uid from 'uid';
 
 import { Task, TaskStatus } from './task.model';
@@ -43,14 +43,23 @@ export class TasksService {
     }
 
     getTaskById(taskId: string): Task {
-        const exists = this.tasks.find(task => task.id === taskId);
+        const foundTask = this.tasks.find(task => task.id === taskId);
 
-        return exists || null;
+        if (!foundTask) {
+            throw new NotFoundException(`Not found task with id '${taskId}'`);
+        }
+
+        return foundTask;
     }
 
     deleteTaskById(taskId: string): boolean {
+        if (!this.tasks.find(task => task.id === taskId)) {
+            throw new NotFoundException(`Task '${taskId}' not found`);
+        }
+
         this.tasks = this.tasks.filter(task => task.id !== taskId);
-        return !!!this.getTaskById(taskId);
+
+        return true;
     }
 
     updateStatus(taskId: string, status: string) {
@@ -58,12 +67,12 @@ export class TasksService {
         const taskStatus = TaskStatus[status];
 
         if (!task) {
-            return `Task ${taskId} not found`;
+            throw new NotFoundException(`Task '${taskId}' not found`);
         }
 
         if (!taskStatus) {
             const validStatuses = Object.keys(TaskStatus).join(', ');
-            return `Status ${status} not valid. Use ${validStatuses}`;
+            throw new NotFoundException(`Status ${status} not valid. Use ${validStatuses}`);
         }
 
         this.tasks = this.tasks.map(item => item.id === taskId ? ({
