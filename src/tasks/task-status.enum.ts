@@ -4,14 +4,6 @@ enum TaskStatus {
     DONE = 'DONE',
 }
 
-interface Task {
-    id: string;
-    title: string;
-    description: string;
-    status: TaskStatus;
-}
-
 export {
     TaskStatus,
-    Task,
 };
