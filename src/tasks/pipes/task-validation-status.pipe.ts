@@ -24,4 +24,6 @@ class TaskValidationStatusPipe implements PipeTransform {
     }
 }
 
-export default TaskValidationStatusPipe;
+export {
+    TaskValidationStatusPipe,
+};

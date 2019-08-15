@@ -11,4 +11,6 @@ const typeOrmConfig: TypeOrmModuleOptions = {
     synchronize: true, // note: disable in production
 };
 
-export default typeOrmConfig;
+export {
+    typeOrmConfig,
+};

@@ -8,4 +8,6 @@ class CreateTaskDto {
     description: string;
 }
 
-export default CreateTaskDto;
+export {
+    CreateTaskDto,
+};

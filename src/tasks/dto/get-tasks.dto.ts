@@ -11,4 +11,6 @@ class GetTasksDto {
     search: string;
 }
 
-export default GetTasksDto;
+export {
+    GetTasksDto,
+};
