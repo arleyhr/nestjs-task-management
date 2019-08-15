@@ -9,12 +9,12 @@ import { Task } from './task.entity';
 export class TasksController {
     constructor(private taskService: TasksService) {}
 
-    // @Get()
-    // getAllTasks(
-    //     @Query(ValidationPipe) filterDto: GetTasksDto,
-    // ): Task[] {
-    //     return this.taskService.getTasks(filterDto);
-    // }
+    @Get()
+    getAllTasks(
+        @Query(ValidationPipe) filterDto: GetTasksDto,
+    ): Promise<Task[]> {
+        return this.taskService.getTasks(filterDto);
+    }
 
     @Get('/:id')
     getTaskById(
@@ -29,12 +29,12 @@ export class TasksController {
         return this.taskService.createTask(createTaskDto);
     }
 
-    // @Delete('/:id')
-    // deleteTaskById(
-    //     @Param('id') taskId: string,
-    // ) {
-    //     return this.taskService.deleteTaskById(taskId);
-    // }
+    @Delete('/:id')
+    deleteTaskById(
+        @Param('id') taskId: string,
+    ) {
+        return this.taskService.deleteTaskById(taskId);
+    }
 
     // @Patch('/:id/status')
     // updateStatus(
