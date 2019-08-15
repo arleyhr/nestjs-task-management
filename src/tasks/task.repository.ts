@@ -1,4 +1,5 @@
-import { EntityRepository, Repository, Like } from 'typeorm';
+import { NotFoundException } from '@nestjs/common';
+import { EntityRepository, Repository, Like, Equal,  } from 'typeorm';
 import * as uid from 'uid';
 
 import { Task } from './task.entity';
@@ -20,14 +21,14 @@ class TaskRepository extends Repository<Task> {
 
         return task.save();
     }
-    findTasks(query?: GetTasksDto) {
-        const taskQuery: any = {};
 
-        if (query && (query.search || query.search)) {
+    findTasks(query?: GetTasksDto): Promise<Task[]> {
+        const taskQuery: any = {};
+        if (query && query.search || query.status) {
             const { status, search } = query;
 
             if (status) {
-                taskQuery.status = status;
+                taskQuery.status = Equal(status);
             }
 
             if (search) {
@@ -38,9 +39,23 @@ class TaskRepository extends Repository<Task> {
 
         return this.find(taskQuery);
     }
-    findTaskById(id: string) {
+
+    findTaskById(id: string): Promise<Task> {
         return this.findOne(id);
     }
+
+    async updateTaskStatus(taskId: string, status: TaskStatus): Promise<Task> {
+        const task = await this.findTaskById(taskId);
+
+        if (!task) {
+            throw new NotFoundException(`Task '${taskId}' not found`);
+        }
+
+        task.status = status;
+
+        return task.save();
+    }
+
 }
 
 export {

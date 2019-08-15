@@ -9,6 +9,7 @@ const typeOrmConfig: TypeOrmModuleOptions = {
     database: 'nestjs_task_management',
     entities: [`${__dirname}/../**/*.entity{.ts,.js}`],
     synchronize: true, // note: disable in production
+    logging: ['query', 'error'],
 };
 
 export {
