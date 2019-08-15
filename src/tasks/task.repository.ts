@@ -14,7 +14,6 @@ class TaskRepository extends Repository<Task> {
 
         const task = new Task();
 
-        task.id = uid();
         task.title = title;
         task.description = description;
         task.status = TaskStatus.OPEN;
